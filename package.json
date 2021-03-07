@@ -4,10 +4,14 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.11",
-    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-regular-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "add": "^2.0.6",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "react": "^16.13.1",
@@ -15,6 +19,7 @@
     "react-scripts": "3.4.1",
     "styled-components": "^5.2.1",
     "typescript": "~3.7.2",
+    "yarn": "^1.22.10",
     "yup": "^0.32.9"
   },
   "scripts": {
@@ -52,6 +57,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/styled-components": "^5.1.7",
-    "@types/yup": "^0.29.11"
+    "@types/yup": "^0.29.11",
+    "babel-plugin-styled-components": "^1.12.0"
   }
 }
