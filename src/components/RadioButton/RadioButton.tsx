@@ -2,15 +2,18 @@ import React, { ChangeEvent, FC, InputHTMLAttributes } from 'react'
 import styled from 'styled-components/macro'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  text: string
   id: string
   name: string
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   value: string
 }
 
+const RadioButton: FC<InputProps> = ({ id, name, value, text, onChange, ...props }: any) => {
   return (
     <StyledRadioButton>
       <input {...props} id={id} type="radio" name={name} value={value} onChange={onChange} />
+      <label htmlFor={id}>{text}</label>
     </StyledRadioButton>
   )
 }

@@ -9,6 +9,7 @@ export type RadioOptions = {
 }
 
 interface RadioGroupProps extends InputHTMLAttributes<HTMLInputElement> {
+  error?: string | undefined
   name: string
   options: RadioOptions[]
   value: string | number
@@ -24,10 +25,13 @@ const RadioGroup: FC<RadioGroupProps> = ({ error, name, onChange, options, value
           name={name}
           id={`${name}-${i}`}
           value={o.value as string}
+          text={o.text}
+          checked={value === o.value}
           onChange={onChange}
           {...props}
         />
       )),
+    [name, onChange, options, value, props]
   )
 
   return (

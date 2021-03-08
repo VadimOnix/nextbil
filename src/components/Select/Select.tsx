@@ -10,7 +10,7 @@ export type SelectItem = {
   value: string | number
 }
 
-interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps extends SelectHTMLAttributes<HTMLInputElement> {
   error?: string
   handleSelect: Function
   isOpen?: boolean
@@ -78,7 +78,7 @@ const Select: FC<SelectProps> = ({ error, handleSelect, items, name, value, ...p
         onKeyPress={openBySpace}
         tabIndex={props.tabIndex}
       >
-        <input name={name} placeholder={props.defaultValue as string} type={'text'} value={value} readOnly />
+        <input {...props} name={name} placeholder={props.defaultValue as string} type={'text'} value={value} readOnly />
         <FontAwesomeIcon className="absolute-right" icon={faAngleDown} />
       </StyledSelect>
       <StyledSelectList visible={isOpen}>{selectItems}</StyledSelectList>
