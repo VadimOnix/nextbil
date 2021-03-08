@@ -13,7 +13,7 @@ const Input: FC<InputProps> = ({ error, icon, name, ...props }) => {
   const focusOnWrapper = useCallback(() => !!inputRef.current && inputRef.current.focus(), [inputRef])
 
   return (
-    <div className="input-wrapper" onFocus={focusOnWrapper} tabIndex={props.tabIndex}>
+    <StyledInputWrapper onFocus={focusOnWrapper} tabIndex={props.tabIndex}>
       <StyledInput tabIndex={props.tabIndex}>
         {icon && <div className="icon-wrapper">{icon}</div>}
         <input
@@ -27,9 +27,13 @@ const Input: FC<InputProps> = ({ error, icon, name, ...props }) => {
         />
       </StyledInput>
       {error && <StyledError>{error}</StyledError>}
-    </div>
+    </StyledInputWrapper>
   )
 }
+
+export const StyledInputWrapper = styled.div`
+  min-height: 66px;
+`
 
 export const StyledError = styled.span`
   color: ${(p) => p.theme.palette.text.error};
@@ -44,7 +48,6 @@ export const StyledInput = styled.div`
   background-color: ${(p) => p.theme.palette.background.input};
   border-radius: ${(p) => p.theme.shape.borderRadius};
   display: flex;
-  margin-bottom: 2px;
   padding: 17px 18px;
   input {
     background-color: ${(p) => p.theme.palette.background.input};

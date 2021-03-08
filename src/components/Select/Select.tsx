@@ -89,6 +89,7 @@ const Select: FC<SelectProps> = ({ error, handleSelect, items, name, value, ...p
 
 const StyledSelectWrapper = styled.div`
   position: relative;
+  min-height: 66px;
 `
 
 const StyledSelect = styled(StyledInput)<SelectStyleProps>`

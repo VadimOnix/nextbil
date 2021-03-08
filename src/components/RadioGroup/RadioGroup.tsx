@@ -9,7 +9,6 @@ export type RadioOptions = {
 }
 
 interface RadioGroupProps extends InputHTMLAttributes<HTMLInputElement> {
-  error: string
   name: string
   options: RadioOptions[]
   value: string | number
@@ -29,7 +28,6 @@ const RadioGroup: FC<RadioGroupProps> = ({ error, name, onChange, options, value
           {...props}
         />
       )),
-    [name, onChange, options, props]
   )
 
   return (
@@ -43,7 +41,9 @@ const RadioGroup: FC<RadioGroupProps> = ({ error, name, onChange, options, value
 const RadioGroupWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  min-height: 31px;
   .options-wrapper {
+    margin-bottom: auto;
     display: flex;
     flex-basis: 100%;
   }

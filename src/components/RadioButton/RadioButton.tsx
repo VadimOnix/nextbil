@@ -8,11 +8,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string
 }
 
-const RadioButton: FC<InputProps> = ({ id, name, value, onChange, ...props }: any) => {
   return (
     <StyledRadioButton>
       <input {...props} id={id} type="radio" name={name} value={value} onChange={onChange} />
-      <label htmlFor={id}>{value}</label>
     </StyledRadioButton>
   )
 }
@@ -25,7 +23,7 @@ const StyledRadioButton = styled.div`
   & > label {
     font-size: ${(p) => p.theme.typography.fontSize}px;
     line-height: ${(p) => p.theme.typography.lineHeight}px;
-    margin-left: 8px;
+    padding-left: 8px;
   }
   & > label:before {
     border-radius: 50%;

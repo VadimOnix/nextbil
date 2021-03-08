@@ -20,13 +20,14 @@ const Checkbox: FC<InputProps> = ({ name, checked, children, error, ...props }) 
 }
 
 const StyledCheckbox = styled.div`
+  min-height: 31px;
   .checkbox-wrapper > input[type='checkbox'] {
     opacity: 0;
   }
   .checkbox-wrapper > label {
     font-size: ${(p) => p.theme.typography.fontSize}px;
     line-height: ${(p) => p.theme.typography.lineHeight}px;
-    margin-left: 8px;
+    padding-left: 8px;
   }
   .checkbox-wrapper > label:before {
     border-radius: 3px;
