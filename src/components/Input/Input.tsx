@@ -1,30 +1,35 @@
-import React, { FC, InputHTMLAttributes } from 'react';
-import styled from 'styled-components/macro';
+import React, { FC, InputHTMLAttributes, useCallback, useRef } from 'react'
+import styled from 'styled-components/macro'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-  icon?: JSX.Element;
-  name: string;
+  error?: string
+  icon?: JSX.Element
+  name: string
 }
 
 const Input: FC<InputProps> = ({ error, icon, name, ...props }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const focusOnWrapper = useCallback(() => !!inputRef.current && inputRef.current.focus(), [inputRef])
+
   return (
-    <div className="input-wrapper">
-      <StyledInput>
+    <div className="input-wrapper" onFocus={focusOnWrapper} tabIndex={props.tabIndex}>
+      <StyledInput tabIndex={props.tabIndex}>
         {icon && <div className="icon-wrapper">{icon}</div>}
         <input
+          {...props}
+          ref={inputRef}
           id={props.id}
           name={name}
           onChange={props.onChange}
           type={props.type}
           value={props.value}
-          {...props}
         />
       </StyledInput>
       {error && <StyledError>{error}</StyledError>}
     </div>
-  );
-};
+  )
+}
 
 export const StyledError = styled.span`
   color: ${(p) => p.theme.palette.text.error};
@@ -32,7 +37,7 @@ export const StyledError = styled.span`
   font-size: 0.625rem;
   line-height: 0.8125rem;
   margin-left: 18px;
-`;
+`
 
 export const StyledInput = styled.div`
   align-items: center;
@@ -56,6 +61,6 @@ export const StyledInput = styled.div`
     color: ${(p) => p.theme.palette.text.secondary};
     width: 34px;
   }
-`;
+`
 
-export default Input;
+export default Input

@@ -1,49 +1,36 @@
-import React, { ChangeEvent, FC, InputHTMLAttributes } from 'react';
-import styled from 'styled-components/macro';
+import React, { ChangeEvent, FC, InputHTMLAttributes, useCallback, useRef } from 'react'
+import styled from 'styled-components/macro'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  id: string;
-  name: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  id: string
+  name: string
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  value: string
 }
 
-const RadioButton: FC<InputProps> = ({
-  id,
-  name,
-  value,
-  onChange,
-  ...props
-}: any) => {
+const RadioButton: FC<InputProps> = ({ id, name, value, onChange, ...props }: any) => {
   return (
     <StyledRadioButton>
-      <input
-        id={id}
-        type="radio"
-        name={name}
-        value={value}
-        onChange={onChange}
-        {...props}
-      />
+      <input {...props} id={id} type="radio" name={name} value={value} onChange={onChange} />
       <label htmlFor={id}>{value}</label>
     </StyledRadioButton>
-  );
-};
+  )
+}
 
 const StyledRadioButton = styled.div`
   position: relative;
   & > input[type='radio'] {
-    display: none;
+    opacity: 0;
   }
   & > label {
     font-size: ${(p) => p.theme.typography.fontSize}px;
     line-height: ${(p) => p.theme.typography.lineHeight}px;
-    margin-left: 22px;
+    margin-left: 8px;
   }
   & > label:before {
     border-radius: 50%;
     border: 1px solid ${(p) => p.theme.palette.primary.main};
-    bottom: 1px;
+    bottom: 2px;
     content: '';
     display: inline-block;
     height: 12px;
@@ -54,7 +41,7 @@ const StyledRadioButton = styled.div`
   & > input[type='radio']:checked + label:after {
     background: ${(p) => p.theme.palette.primary.main};
     border-radius: 50%;
-    bottom: 4px;
+    bottom: 5px;
     content: '';
     display: inline-block;
     height: 8px;
@@ -67,7 +54,6 @@ const StyledRadioButton = styled.div`
     font-size: ${(p) => p.theme.typography.fontSize};
     margin-left: 25px;
   }
-`;
+`
 
-
-export default RadioButton;
+export default RadioButton

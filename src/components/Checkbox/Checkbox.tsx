@@ -1,44 +1,32 @@
-import React, { FC, InputHTMLAttributes } from 'react';
-import styled from 'styled-components/macro';
-import { StyledError } from '../Input/Input';
+import React, { FC, InputHTMLAttributes, useCallback, useRef } from 'react'
+import styled from 'styled-components/macro'
+import { StyledError } from '../Input/Input'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  checked: boolean;
-  error?: string;
+  checked: boolean
+  error?: string
 }
 
-const Checkbox: FC<InputProps> = ({
-  name,
-  checked,
-  children,
-  error,
-  ...props
-}) => {
+const Checkbox: FC<InputProps> = ({ name, checked, children, error, ...props }) => {
   return (
     <StyledCheckbox>
-      <div className='checkbox-wrapper'>
-        <input
-          id={name}
-          type="checkbox"
-          name={name}
-          checked={checked}
-          {...props}
-        />
+      <div className="checkbox-wrapper">
+        <input {...props} id={name} type="checkbox" name={name} checked={checked} tabIndex={-1} />
         <label htmlFor={name}>{children}</label>
       </div>
       {error && <StyledError>{error}</StyledError>}
     </StyledCheckbox>
-  );
-};
+  )
+}
 
 const StyledCheckbox = styled.div`
   .checkbox-wrapper > input[type='checkbox'] {
-    display: none;
+    opacity: 0;
   }
   .checkbox-wrapper > label {
     font-size: ${(p) => p.theme.typography.fontSize}px;
     line-height: ${(p) => p.theme.typography.lineHeight}px;
-    margin-left: 22px;
+    margin-left: 8px;
   }
   .checkbox-wrapper > label:before {
     border-radius: 3px;
@@ -65,7 +53,8 @@ const StyledCheckbox = styled.div`
     width: 7px;
   }
   .checkbox-wrapper {
-    position:relative;
+    position: relative;
+    display: flex;
   }
-`;
-export default Checkbox;
+`
+export default Checkbox
