@@ -9,6 +9,7 @@ import Select, { SelectItem } from '../Select/Select'
 import RadioGroup, { RadioOptions } from '../RadioGroup/RadioGroup'
 import Checkbox from '../Checkbox/Checkbox'
 import Button from '../Button/Button'
+import { FormData, formSignUpSchemaValidation } from './validationSchema'
 
 const countryOptions: SelectItem[] = [
   { value: 'Latvia', text: 'Latvia' },
@@ -19,20 +20,32 @@ const countryOptions: SelectItem[] = [
 ]
 
 const genderOptions: RadioOptions[] = [
-  { value: 'Male', text: 'Male' },
-  { value: 'Female', text: 'Female' },
+  { value: 'MALE', text: 'Male' },
+  { value: 'FEMALE', text: 'Female' },
 ]
 
 const FormSignUp = () => {
-  const { values, handleSubmit, handleChange, errors, touched, setFieldValue } = useFormik({
+  const {
+    values,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    errors,
+    setFieldValue,
+    isValid,
+    dirty,
+    touched,
+  } = useFormik<FormData>({
     initialValues: {
-      name: '',
-      email: '',
-      password: '',
       country: '',
+      email: '',
       gender: '',
+      name: '',
+      password: '',
       terms: false,
     },
+    validateOnChange: true,
+    validationSchema: formSignUpSchemaValidation,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2))
     },
@@ -47,10 +60,11 @@ const FormSignUp = () => {
         <Input
           aria-label="Enter your name"
           autoComplete={'username'}
-          error={'Please enter a valid name'}
+          error={(touched.name && errors.name) as string}
           id={'name'}
           name={'name'}
           onChange={handleChange}
+          onBlur={handleBlur}
           placeholder="Enter your name"
           type={'text'}
           value={values.name}
@@ -59,11 +73,12 @@ const FormSignUp = () => {
         <Input
           aria-label="Enter email"
           autoComplete={'email'}
-          error={'Please enter a valid email address'}
+          error={(touched.email && errors.email) as string}
           icon={<FontAwesomeIcon icon={faEnvelope} />}
           id={'email'}
           name={'email'}
           onChange={handleChange}
+          onBlur={handleBlur}
           placeholder="Email"
           type={'text'}
           value={values.email}
@@ -72,11 +87,12 @@ const FormSignUp = () => {
         <Input
           aria-label="Enter password"
           autoComplete={'current-password'}
-          error={'Password must contain at least 6 symbols'}
+          error={(touched.password && errors.password) as string}
           icon={<FontAwesomeIcon icon={faLock} />}
           id={'password'}
           name={'password'}
           onChange={handleChange}
+          onBlur={handleBlur}
           placeholder="Password"
           type={'password'}
           value={values.password}
@@ -84,8 +100,9 @@ const FormSignUp = () => {
         />
         <Select
           defaultValue={'Select country'}
-          error={'You must select your country'}
+          error={(touched.country && errors.country) as string}
           handleSelect={setFieldValue}
+          onBlur={handleBlur}
           items={countryOptions}
           name="country"
           value={values.country}
@@ -94,10 +111,11 @@ const FormSignUp = () => {
       </div>
       <div className="radio-group">
         <RadioGroup
-          error={'You must select the gender'}
+          error={(touched.gender && errors.gender) as string}
           name="gender"
           options={genderOptions}
-          value={values.gender}
+          value={values.gender as string}
+          onBlur={handleBlur}
           onChange={handleChange}
           tabIndex={5}
         />
@@ -107,8 +125,9 @@ const FormSignUp = () => {
           name="terms"
           checked={values.terms}
           onChange={handleChange}
-          error={'You must accept the policies'}
+          error={(touched.terms && errors.terms) as string}
           tabIndex={6}
+          onBlur={handleBlur}
         >
           Accept{' '}
           {
@@ -125,7 +144,7 @@ const FormSignUp = () => {
         </Checkbox>
       </div>
       <div className="submit-wrapper">
-        <Button stretch disabled tabIndex={7}>
+        <Button stretch disabled={!isValid || !dirty} tabIndex={7}>
           Sign Up
         </Button>
       </div>
