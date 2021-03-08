@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
-import { DefaultTheme, ThemeProvider } from 'styled-components';
-import GlobalStyles from './GlobalStyles';
+import React, { FC } from 'react'
+import { DefaultTheme, ThemeProvider } from 'styled-components'
+import GlobalStyles from './GlobalStyles'
 
 type ThemeProviderProps = {
-  theme: DefaultTheme;
-};
+  theme: DefaultTheme
+}
 
 const CustomThemeProvider: FC<ThemeProviderProps> = ({ children, theme }) => {
   return (
@@ -12,7 +12,7 @@ const CustomThemeProvider: FC<ThemeProviderProps> = ({ children, theme }) => {
       <GlobalStyles />
       {children}
     </ThemeProvider>
-  );
-};
+  )
+}
 
-export default CustomThemeProvider;
+export default CustomThemeProvider

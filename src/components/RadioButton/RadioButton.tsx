@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, InputHTMLAttributes, useCallback, useRef } from 'react'
+import React, { ChangeEvent, FC, InputHTMLAttributes } from 'react'
 import styled from 'styled-components/macro'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

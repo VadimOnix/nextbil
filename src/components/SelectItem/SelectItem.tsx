@@ -1,12 +1,8 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
-const SelectItem:FC<any> = ({children, ...props}) => {
-  return (
-    <StyledItem {...props}>
-      {children}
-    </StyledItem>
-  )
+const SelectItem: FC<any> = ({ children, ...props }) => {
+  return <StyledItem {...props}>{children}</StyledItem>
 }
 
 const StyledItem = styled.div`
@@ -15,7 +11,7 @@ const StyledItem = styled.div`
   padding: 0 20px;
   cursor: pointer;
   &:hover {
-    background: #F5F8FA;
+    background: #f5f8fa;
   }
 `
 

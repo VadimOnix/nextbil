@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components/macro';
+import { createGlobalStyle } from 'styled-components/macro'
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -18,6 +18,6 @@ const GlobalStyles = createGlobalStyle`
       background-color: ${(p) => p.theme.palette.common.white}
     }
   }
-`;
+`
 
-export default GlobalStyles;
+export default GlobalStyles
