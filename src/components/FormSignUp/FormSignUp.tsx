@@ -1,14 +1,14 @@
-import { useFormik } from 'formik';
-import React from 'react';
-import styled from 'styled-components/macro';
-import Input from '../Input/Input';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
-import Select, { SelectItem } from '../Select/Select';
-import RadioGroup, { RadioOptions } from '../RadioGroup/RadioGroup';
-import Checkbox from '../Checkbox/Checkbox';
-import Button from '../Button/Button';
+import { useFormik } from 'formik'
+import React from 'react'
+import styled from 'styled-components/macro'
+import Input from '../Input/Input'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons'
+import { faLock } from '@fortawesome/free-solid-svg-icons'
+import Select, { SelectItem } from '../Select/Select'
+import RadioGroup, { RadioOptions } from '../RadioGroup/RadioGroup'
+import Checkbox from '../Checkbox/Checkbox'
+import Button from '../Button/Button'
 
 const countryOptions: SelectItem[] = [
   { value: 'Latvia', text: 'Latvia' },
@@ -16,22 +16,15 @@ const countryOptions: SelectItem[] = [
   { value: 'Lesotho', text: 'Lesotho' },
   { value: 'Liberia', text: 'Liberia' },
   { value: 'Libya', text: 'Libya' },
-];
+]
 
 const genderOptions: RadioOptions[] = [
   { value: 'Male', text: 'Male' },
   { value: 'Female', text: 'Female' },
-];
+]
 
 const FormSignUp = () => {
-  const {
-    values,
-    handleSubmit,
-    handleChange,
-    errors,
-    touched,
-    setFieldValue,
-  } = useFormik({
+  const { values, handleSubmit, handleChange, errors, touched, setFieldValue } = useFormik({
     initialValues: {
       name: '',
       email: '',
@@ -41,9 +34,9 @@ const FormSignUp = () => {
       terms: false,
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      alert(JSON.stringify(values, null, 2))
     },
-  });
+  })
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -61,6 +54,7 @@ const FormSignUp = () => {
           placeholder="Enter your name"
           type={'text'}
           value={values.name}
+          tabIndex={1}
         />
         <Input
           aria-label="Enter email"
@@ -73,6 +67,7 @@ const FormSignUp = () => {
           placeholder="Email"
           type={'text'}
           value={values.email}
+          tabIndex={2}
         />
         <Input
           aria-label="Enter password"
@@ -85,6 +80,7 @@ const FormSignUp = () => {
           placeholder="Password"
           type={'password'}
           value={values.password}
+          tabIndex={3}
         />
         <Select
           defaultValue={'Select country'}
@@ -93,6 +89,7 @@ const FormSignUp = () => {
           items={countryOptions}
           name="country"
           value={values.country}
+          tabIndex={4}
         />
       </div>
       <div className="radio-group">
@@ -102,6 +99,7 @@ const FormSignUp = () => {
           options={genderOptions}
           value={values.gender}
           onChange={handleChange}
+          tabIndex={5}
         />
       </div>
       <div className="checkbox-group">
@@ -109,7 +107,9 @@ const FormSignUp = () => {
           name="terms"
           checked={values.terms}
           onChange={handleChange}
-          error={'You must accept the policies'}>
+          error={'You must accept the policies'}
+          tabIndex={6}
+        >
           Accept{' '}
           {
             <a href="#terms" className="link">
@@ -125,11 +125,13 @@ const FormSignUp = () => {
         </Checkbox>
       </div>
       <div className="submit-wrapper">
-        <Button stretch disabled>Sign Up</Button>
+        <Button stretch disabled tabIndex={7}>
+          Sign Up
+        </Button>
       </div>
     </StyledForm>
-  );
-};
+  )
+}
 
 const StyledForm = styled.form`
   align-items: center;
@@ -174,6 +176,6 @@ const StyledForm = styled.form`
     margin-top: 23px;
     width: 100%;
   }
-`;
+`
 
-export default FormSignUp;
+export default FormSignUp

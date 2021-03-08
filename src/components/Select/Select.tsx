@@ -1,59 +1,44 @@
-import React, {
-  FC,
-  MouseEvent,
-  SelectHTMLAttributes,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import styled from 'styled-components/macro';
-import { StyledError, StyledInput } from '../Input/Input';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import SelectItem from '../SelectItem/SelectItem';
+import React, { FC, MouseEvent, SelectHTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import styled from 'styled-components/macro'
+import { StyledError, StyledInput } from '../Input/Input'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import SelectItem from '../SelectItem/SelectItem'
 
 export type SelectItem = {
-  text: string;
-  value: string | number;
-};
+  text: string
+  value: string | number
+}
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  error?: string;
-  handleSelect: Function;
-  isOpen?: boolean;
-  items: SelectItem[];
-  name: string;
+  error?: string
+  handleSelect: Function
+  isOpen?: boolean
+  items: SelectItem[]
+  name: string
 }
 
 interface SelectStyleProps {
-  isOpen?: boolean;
-  hasError?: boolean;
+  isOpen?: boolean
+  hasError?: boolean
 }
 
 interface SelectStyleListProps {
-  visible: boolean;
+  visible: boolean
 }
 
-const Select: FC<SelectProps> = ({
-  error,
-  handleSelect,
-  items,
-  name,
-  value,
-  ...props
-}) => {
-  const selectRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
+const Select: FC<SelectProps> = ({ error, handleSelect, items, name, value, ...props }) => {
+  const selectRef = useRef(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   const setSelectedItem = useCallback(
     (item: SelectItem) => () => {
-      handleSelect(name, item.value);
-      setIsOpen(false);
+      handleSelect(name, item.value)
+      setIsOpen(false)
     },
     [handleSelect, name]
-  );
+  )
+  const toggleList = useCallback(() => setIsOpen(!isOpen), [isOpen])
 
   const selectItems = useMemo(
     () =>
@@ -63,53 +48,61 @@ const Select: FC<SelectProps> = ({
         </SelectItem>
       )),
     [items, setSelectedItem]
-  );
+  )
 
-  const clickOutside = useCallback((e: React.MouseEvent) => {
+  const clickOutside = useCallback((e: globalThis.MouseEvent) => {
     if (!(selectRef.current! as any).contains(e.target)) {
-      setIsOpen(false);
+      setIsOpen(false)
     }
-  }, []);
+  }, [])
 
+  const openBySpace = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.charCode === 32) {
+        toggleList()
+      }
+    },
+    [toggleList]
+  )
   useEffect(() => {
-    //@ts-ignore
-    document.addEventListener('click', clickOutside);
-    //@ts-ignore
-    return () => document.removeEventListener('click', clickOutside);
-  }, [clickOutside]);
+    document.addEventListener('click', clickOutside)
+    return () => document.removeEventListener('click', clickOutside)
+  }, [clickOutside])
 
-  const toggleList = () => setIsOpen(!isOpen);
   return (
     <StyledSelectWrapper ref={selectRef}>
-      <StyledSelect hasError={!!error} isOpen={isOpen} onClick={toggleList}>
-        <input
-          disabled={true}
-          name={name}
-          placeholder={props.defaultValue as string}
-          type={'text'}
-          value={value}
-        />
+      <StyledSelect
+        hasError={!!error}
+        isOpen={isOpen}
+        onClick={toggleList}
+        onKeyPress={openBySpace}
+        tabIndex={props.tabIndex}
+      >
+        <input name={name} placeholder={props.defaultValue as string} type={'text'} value={value} readOnly />
         <FontAwesomeIcon className="absolute-right" icon={faAngleDown} />
       </StyledSelect>
       <StyledSelectList visible={isOpen}>{selectItems}</StyledSelectList>
       {error && <StyledError>{error}</StyledError>}
     </StyledSelectWrapper>
-  );
-};
+  )
+}
 
 const StyledSelectWrapper = styled.div`
   position: relative;
-`;
+`
 
 const StyledSelect = styled(StyledInput)<SelectStyleProps>`
   position: relative;
+  & > input {
+    caret-color: transparent;
+  }
   .absolute-right {
     position: absolute;
     right: 21px;
     transform: ${(p) => (p.isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
     transition: transform 0.3s ease;
   }
-`;
+`
 
 const StyledSelectList = styled.div<SelectStyleListProps>`
   background: ${(p) => p.theme.palette.background.default};
@@ -121,6 +114,6 @@ const StyledSelectList = styled.div<SelectStyleListProps>`
   top: 61px;
   width: 100%;
   z-index: ${(p) => p.theme.zIndex.dropDown};
-`;
+`
 
-export default Select;
+export default Select
