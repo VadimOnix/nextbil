@@ -204,7 +204,7 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   min-height: 605px;
-  padding: 32px 28px 53px 29px; // TODO: Вопрос к дизайнеру по левому и правому отступу
+  padding: 32px 28px 0 29px; // TODO: Вопрос к дизайнеру по левому и правому отступу
   width: 400px;
   .title-wrapper {
     .title {
@@ -212,6 +212,7 @@ const StyledForm = styled.form`
       font-size: 1.7rem;
       font-weight: ${(p) => p.theme.typography.fontWeightBold};
       letter-spacing: 0px;
+      margin: 0;
     }
   }
   .input-group {
