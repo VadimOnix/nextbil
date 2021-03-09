@@ -28,7 +28,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "apollo-sync": "apollo client:download-schema .graphql/schema.json && apollo client:download-schema .graphql/schema.graphql",
+    "apollo-codegen": "apollo client:codegen --target=typescript --globalTypesFile ./src/apollo/__generated__/globalTypes.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
