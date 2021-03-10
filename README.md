@@ -1,44 +1,103 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Тестовое задание bordio.com
 
-## Available Scripts
+### Запуск приложения
 
-In the project directory, you can run:
+Для запуска приложения используйте менеджер пакетов **Yarn**\
+Перейдите в директорию проекта и для установки зависимостей в терминале введите:
+ 
+ `yarn`  
+ 
+ Для запуска используйте команду:
+ 
+ `yarn start`
 
-### `yarn start`
+Для запуска тестов используйте: 
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+`yarn test`
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Задача
+Разработать форму на React + TypeScript _([Ссылка на макет](https://xd.adobe.com/view/8e1c899f-0713-45d3-4c76-483c7e358106-f82d/screen/4b4f2389-d76f-433d-89d8-f6aa49e4fb98/specs/))_
 
-### `yarn test`
+### Требования
+1. Все компоненты формы должны быть выполнены самостоятельно, без использования готовых компонентов.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Допускается использование следующих библиотек, по необходимости:\
+    a. fontawesome\
+    b. formik\
+    c. lodash\
+    d. Apollo GraphQL\
+    e. styled-components\
+    f. yup или любую другую библиотеку для валидации
+    
+3. Все поля формы являются обязательными к заполнению.
 
-### `yarn build`
+4. Следующие поля требуют валидацию:\
+    a. Name - Допускается к вводу только латинский алфавит\
+    b. Email - Должен соответствовать структуре маила\
+    c. Password - Не менее 6 любых символов
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. В случае некорректного заполнения одного из вышеперечисленных полей под самим полем должна отображаться ошибка с 
+пояснением.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+6. До тех пор пока пользователь не заполнит все поля, кнопка “Sign up” должна оставаться заблокированной.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+7. При нажатии на кнопку “Sign Up”, текст кнопки должен меняться на спиннер и должен оставаться таким в течение 10 
+секунд.
 
-### `yarn eject`
+### Ход выполнения работы
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### 1. Создание темы
+В библиотеках, доступных для использования, имеется **styled-components**, который предоставляет систему подключения темы,
+поэтому для поддержания единого стиля, минимизации ошибок в цветах компонентов и наличия механизма их быстрого 
+изменения, была создана тема на основе данных из макета.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Тема подключается через кастомный компонент провайдера темы `<CustomThemeProvider/>`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### 2. Создание компонентов
+Первым разработанным компонентом является `<Input/>`, который может отображать иконки из библиотеки FontAwesome 
+и выводить ошибки в специальное поле под собой.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Далее был реализован `<Select/>`,  который является наследником от `<Input/>` с активным свойством `readOnly`. 
+По нажатию отображает выпадающий список с доступными опциями.
 
-## Learn More
+Следующими компонентами являются `<RadioButton/>` и `<Checkbox/>` с классической реализацией сокрытия инпута при помощи
+стилей и отрисовкой псевдоэлементов лейбла `:before` и `:after` согласно состоянию инпута.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 3. Валидация формы
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Валидация формы осуществляется с помощью библиотеки **formic**. С её помощью очень просто реализуется требование
+по контролю за состоянием кнопки **SignUp**. _(Предпочитаю использовать **react-hook-forms**, т.к. она более 
+производительная и гибкая)_
+
+Схема валидации реализована с помощью библиотеки **yup** с учетом требований к данным, указанным в техническом задании.
+
+### Выполненные дополнительные задания
+
+#### 1. Отправка данных на сервер с помощью Apollo Client
+
+Чтобы выполнить это задание, потребовалось настроить клиент, описать файл конфигурации и добавить новые скрипты в
+`package.json` для удобства работы со схемой (синхронизация и генерация типов)
+
+Также на форму добавлена обработка ошибок: 
+- Ошибка выводится под кнопку;
+- Кнопка окрашивается в красный цвет до того момента, пока пользователь не начнет менять данные на форме.
+
+#### 2. Тестирование компонентов
+
+Для оптимизации затрачиваемого времени на выполнение задания, тестами были покрыты основные сценарии пользовательского
+взаимодействия с формой: 
+- просмотр ошибок при некорректном вводе;
+- очистка ошибок при корректном вводе;
+- возможность нажать кнопку, когда данные прошли валидацию.
+
+ #### 3. Использование Git
+ 
+ Все изменения репозитория открыты для просмотра.
+ 
+ ### Невыполненные задания
+ 
+ #### 1. Добавление элементов в storybook
+ До текущего момента со storybook не работал, поэтому не смог быстро решить проблему его запуска. Но я прочитал 
+ документацию, и в целом понял, что это достаточно простой инструмент для изолирования компонентов и интерактивного
+ тестирования.
+ 
