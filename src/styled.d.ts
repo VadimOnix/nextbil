@@ -21,6 +21,7 @@ declare module 'styled-components' {
       primary: {
         main: Color
         contrastText: Color
+        error: Color
       },
       background: {
         default: Color,

@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, SelectHTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { FC, SelectHTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components/macro'
 import { StyledError, StyledInput } from '../Input/Input'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
@@ -78,7 +78,7 @@ const Select: FC<SelectProps> = ({ error, handleSelect, items, name, value, ...p
         onKeyPress={openBySpace}
         tabIndex={props.tabIndex}
       >
-        <input {...props} name={name} placeholder={props.defaultValue as string} type={'text'} value={value} readOnly />
+        <input {...props} name={name} placeholder={props.defaultValue as string} type={'text'} value={value} defaultValue={undefined} readOnly/>
         <FontAwesomeIcon className="absolute-right" icon={faAngleDown} />
       </StyledSelect>
       <StyledSelectList visible={isOpen}>{selectItems}</StyledSelectList>

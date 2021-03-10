@@ -1,5 +1,5 @@
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import Input from '../Input/Input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +10,10 @@ import RadioGroup, { RadioOptions } from '../RadioGroup/RadioGroup'
 import Checkbox from '../Checkbox/Checkbox'
 import Button from '../Button/Button'
 import { FormData, formSignUpSchemaValidation } from './validationSchema'
+import { ApolloError, gql, useMutation } from '@apollo/client'
+import { signUpUser, signUpUserVariables } from './__generated__/signUpUser'
+import { Gender } from '../../apollo/__generated__/globalTypes'
+import LoadingIcon from '../LoadingIcon/ButtonLoadingIcon'
 
 const countryOptions: SelectItem[] = [
   { value: 'Latvia', text: 'Latvia' },
@@ -24,7 +28,38 @@ const genderOptions: RadioOptions[] = [
   { value: 'FEMALE', text: 'Female' },
 ]
 
+export const SIGN_UP_USER = gql`
+  mutation signUpUser($input: SignupInput!) {
+    signup(input: $input) {
+      id
+      name
+      email
+      country
+      gender
+    }
+  }
+`
+
 const FormSignUp = () => {
+  const [error, setError] = useState<ApolloError>()
+  const [signUpMutation, { data, loading }] = useMutation<signUpUser, signUpUserVariables>(SIGN_UP_USER, {
+    onError: (error) => setError(error),
+  })
+
+  const sendData = async (data: FormData) => {
+    await signUpMutation({
+      variables: {
+        input: {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          country: data.country,
+          gender: data.gender as Gender,
+        },
+      },
+    })
+  }
+
   const {
     values,
     handleSubmit,
@@ -37,19 +72,21 @@ const FormSignUp = () => {
     touched,
   } = useFormik<FormData>({
     initialValues: {
-      country: '',
-      email: '',
-      gender: '',
       name: '',
+      email: '',
       password: '',
+      country: '',
+      gender: undefined,
       terms: false,
     },
     validateOnChange: true,
     validationSchema: formSignUpSchemaValidation,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
-    },
+    onSubmit: sendData,
   })
+
+  useEffect(() => setError(undefined), [values])
+
+  useEffect(() => console.log('Debug server response data:', data), [data])
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -144,10 +181,18 @@ const FormSignUp = () => {
         </Checkbox>
       </div>
       <div className="submit-wrapper">
-        <Button stretch disabled={!isValid || !dirty} tabIndex={7}>
+        <Button
+          stretch
+          disabled={!isValid || !dirty || loading}
+          loading={loading}
+          loadingIcon={<LoadingIcon />}
+          error={!!error}
+          tabIndex={7}
+        >
           Sign Up
         </Button>
       </div>
+      <div className="fetch-error-wrapper">{error?.message}</div>
     </StyledForm>
   )
 }
@@ -159,7 +204,7 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   min-height: 605px;
-  padding: 32px 28px 53px 29px; // TODO: Вопрос к дизайнеру по левому и правому отступу
+  padding: 32px 28px 0 29px; // TODO: Вопрос к дизайнеру по левому и правому отступу
   width: 400px;
   .title-wrapper {
     .title {
@@ -167,6 +212,7 @@ const StyledForm = styled.form`
       font-size: 1.7rem;
       font-weight: ${(p) => p.theme.typography.fontWeightBold};
       letter-spacing: 0px;
+      margin: 0;
     }
   }
   .input-group {
@@ -194,6 +240,13 @@ const StyledForm = styled.form`
   .submit-wrapper {
     margin-top: 23px;
     width: 100%;
+  }
+  .fetch-error-wrapper {
+    margin-top: 10px;
+    min-height: 20px;
+    font-size: 13px;
+    text-align: center;
+    color: ${(p) => p.theme.palette.primary.error};
   }
 `
 

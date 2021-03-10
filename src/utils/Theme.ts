@@ -15,6 +15,7 @@ export const mainTheme: DefaultTheme = {
     primary: {
       contrastText: '#FFFFFF',
       main: '#0094FF',
+      error: '#E82828'
     },
     background: {
       default: '#FFFFFF',
