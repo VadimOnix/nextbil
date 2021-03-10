@@ -28,7 +28,7 @@ const genderOptions: RadioOptions[] = [
   { value: 'FEMALE', text: 'Female' },
 ]
 
-const SIGN_UP_USER = gql`
+export const SIGN_UP_USER = gql`
   mutation signUpUser($input: SignupInput!) {
     signup(input: $input) {
       id
@@ -86,7 +86,7 @@ const FormSignUp = () => {
 
   useEffect(() => setError(undefined), [values])
 
-  useEffect(() => console.log(data), [data])
+  useEffect(() => console.log('Debug server response data:', data), [data])
 
   return (
     <StyledForm onSubmit={handleSubmit}>
