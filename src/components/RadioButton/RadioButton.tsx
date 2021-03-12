@@ -9,7 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   value: string
 }
 
-const RadioButton: FC<InputProps> = ({ id, name, value, text, onChange, ...props }: any) => {
+const RadioButton: FC<InputProps> = ({ id, name, value, text, onChange, ...props }) => {
   return (
     <StyledRadioButton>
       <input {...props} id={id} type="radio" name={name} value={value} onChange={onChange} />
